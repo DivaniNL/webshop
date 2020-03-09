@@ -12,6 +12,6 @@ echo "Hallo";
     <title>Document</title>
 </head>
 <body>
-    <a href="src/register.php">Test</a>
+    <a href="src/registratie.php">Test</a>
 </body>
 </html>

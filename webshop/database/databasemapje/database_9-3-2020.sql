@@ -17,10 +17,10 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Tabelstructuur voor tabel `admin`
+-- Tabelstructuur voor tabel `user`
 --
 
-CREATE TABLE `admin` (
+CREATE TABLE `user` (
   `id` int(11) NOT NULL,
   `email` varchar(100) NOT NULL,
   `username` varchar(50) NOT NULL,
@@ -28,10 +28,10 @@ CREATE TABLE `admin` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Gegevens worden geëxporteerd voor tabel `admin`
+-- Gegevens worden geëxporteerd voor tabel `user`
 --
 
-INSERT INTO `admin` (`id`, `email`, `username`, `password`) VALUES
+INSERT INTO `user` (`id`, `email`, `username`, `password`) VALUES
 (3, '$ingevuldem@em', '$ingevuldun', '$ingevuldpw'),
 (4, 'test@test', 'hoi', 'testhoiwessel'),
 (5, '', 'martijnkunstman', '');
@@ -184,9 +184,9 @@ INSERT INTO `user` (`id`, `firstName`, `middleName`, `lastName`, `birthDate`, `e
 --
 
 --
--- Indexen voor tabel `admin`
+-- Indexen voor tabel `user`
 --
-ALTER TABLE `admin`
+ALTER TABLE `user`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `username` (`username`);
 
@@ -226,9 +226,9 @@ ALTER TABLE `user`
 --
 
 --
--- AUTO_INCREMENT voor een tabel `admin`
+-- AUTO_INCREMENT voor een tabel `user`
 --
-ALTER TABLE `admin`
+ALTER TABLE `user`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --

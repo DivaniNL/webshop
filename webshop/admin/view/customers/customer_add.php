@@ -1,8 +1,19 @@
 <?php
-require 'view/config/config.php';
+require '../config/config.php';
+session_start();
 
-
-
+if (isset($_POST['logout'])) {
+    header("Location: ../src/logout.php"); //login formulier pagina
+  }
+  if (isset($_POST['add'])) {
+    header("Location: ../products/product_toevoegen.php"); //login formulier pagina
+  }
+  if (isset($_POST['users'])) {
+    header("Location: ../users/index.php"); //login formulier pagina
+  }
+  if (isset($_POST['customers'])) {
+    header("Location: index.php"); //login formulier pagina
+  }
 if (isset($_POST['submit'])) {
     if($_POST['field_newsletter'] == false){
         $_POST['field_newsletter'] = 0;
@@ -14,7 +25,6 @@ if (isset($_POST['submit'])) {
     if($_POST['field_street_addon'] == ""){
         $_POST['field_street_addon'] = "NONE";
     }
-    
     $ingevuldgen = mysqli_real_escape_string($conn, $_POST['field_gender']);
     $ingevuldstr = mysqli_real_escape_string($conn, $_POST['field_street']);
     $ingevuldhn = mysqli_real_escape_string($conn, $_POST['field_housenumber']);
@@ -29,8 +39,9 @@ if (isset($_POST['submit'])) {
     $ingevuldpw = mysqli_real_escape_string($conn, $_POST['field_password']);
     $ingevuldnl = mysqli_real_escape_string($conn, $_POST['field_newsletter']);
 
-    $sql = "SELECT * from `customer` WHERE `phone` =  '$ingevuldtel' OR `e-mailadres` = '$ingevuldem'";
+    $sql = "SELECT * from `user` WHERE `firstName` =  '$ingevulfn' OR `email` = '$ingevuldem'";
     $result = $conn->query($sql);
+
 
     if ($result->fetch_assoc()) {
         echo "gebruiker bestaat al.";
@@ -40,7 +51,7 @@ if (isset($_POST['submit'])) {
         if ($conn->query($sql) === TRUE) {
             // Uitvoeren query gelukt
             echo "Nieuwe data succesvol toegevoegd aan tabel 'customer'.";
-            header("Location:'login.php'");
+            header("Location:index.php");
         } else {
             // Uitvoeren query mislukt
             echo "Error: " . $sql . "<br>" . $conn->error;
@@ -53,16 +64,16 @@ if (isset($_POST['submit'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="../../assets/css/style.css">
     <title>Document</title>
 </head>
 <body>
     <div class="header">
         <div class = "inlineblock">
-            <img class="logo" src="assets/img/logo.png">
+            <img class="logo" src="../../assets/img/logo.png">
         </div>
         <div  class = "inlineblock">
-            <img class="headertext" src="assets/img/headertext.png">
+            <img class="headertext" src="../../assets/img/headertext.png">
         </div>
         
     </div>
@@ -70,14 +81,37 @@ if (isset($_POST['submit'])) {
     <div class="nav">
       <nav>
         <ul>
-          <li><a href="">Home</a></li>
-          <li><a href="">About</a></li>
           
-          <li><a href="">Contact</a></li>
+          <li><a href="../../index.php">Admin-Home</a></li>
+          <li><a href="../../index_user.php">Gebruikerswebsite</a></li>
         </ul>
       </nav>
     </div>
     <div class="nav2">
+      <nav>
+
+      <ul>
+          <?php if (($_SESSION['namea'] != "")) {
+            echo "<li class='right'><form method='post'><a href='#'><input class='btn' type='submit' name='users' value='Admins'></a></form></li>";
+          } ?>
+        </ul>
+        <ul>
+          <?php if (($_SESSION['namea'] != "")) {
+            echo "<li class='right'><form method='post'><a href='#'><input class='btn' type='submit' name='customers' value='Gebruikers'></a></form></li>";
+          } ?>
+        </ul>
+        <ul>
+          <?php if (($_SESSION['namea'] != "")) {
+            echo "<li class='right'><a href='#'><img class='icon' src='../../assets/img/user.png'> Hallo " . $_SESSION['namea'] . " [Admin]</a></li>";
+          } ?>
+        </ul>
+        <ul>
+          <?php if (($_SESSION['namea'] != "")) {
+            echo "<li class='right'><form method='post'><a href='#'><input class='btn' type='submit' name='logout' value='Log Uit'></a></form></li>";
+          } ?>
+        </ul>
+        
+      </nav>
   </header>
   <div id="content">
 
@@ -96,7 +130,7 @@ if (isset($_POST['submit'])) {
         }
         
         label {
-            width: 200px;
+            width: 100px;
             display: inline-block;
         }
         h1{
@@ -122,7 +156,7 @@ if (isset($_POST['submit'])) {
         }
     </style>
     <div class="container">
-<h1 class="titel"> Registreren Gebruiker</h1>
+<h1 class="titel"> Gebruiker Toevoegen</h1>
 <form method="post">
 <label for="gender">Geslacht</label>
 <select id="gender" name="field_gender">

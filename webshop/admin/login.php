@@ -5,12 +5,11 @@ require 'view/config/config.php';
 
 
 if (isset($_POST['submit'])) {
-
     $ingevuldun = $_POST['field_username'];
     $ingevuldem = $_POST['field_email'];
     $ingevuldpw = $_POST['field_password']; 
     
-    $sql = "SELECT `firstName`, `middleName`, `lastName` FROM `customer` WHERE `e-mailadres` = '$ingevuldem' AND `password` = '$ingevuldpw'";
+    $sql = "SELECT `firstName`, `middleName`, `lastName` FROM `user` WHERE `email` = '$ingevuldem' AND `password` = '$ingevuldpw'";
     // Poging uitvoeren query
     $result = $conn->query($sql); 
     if($result->num_rows > 0) {
@@ -22,12 +21,12 @@ if (isset($_POST['submit'])) {
         //$_SESSION["email"] = $row['firstName'];
 
         if($row['middleName']== ""){
-        $_SESSION["name"] = $row['firstName']." ".$row['lastName'];
+        $_SESSION["namea"] = $row['firstName']." ".$row['lastName'];
         }
         else{
-        $_SESSION["name"] = $row['firstName']." ".$row['middleName']." ".$row['lastName'];
+        $_SESSION["namea"] = $row['firstName']." ".$row['middleName']." ".$row['lastName'];
         }
-        $_SESSION['login'] = "complete";
+        $_SESSION['loginadmin'] = "complete";
         header("Location: index.php");
     //  } else {
     //       echo "Cookie is not set!";
@@ -120,7 +119,7 @@ if (isset($_POST['submit'])) {
         }
     </style>
     <div class="container">
-<h1 class="titel"> Inloggen Gebruiker</h1>
+<h1 class="titel"> Inloggen Beheeromgeving</h1>
 <form method="post" action="login.php">
  <label for="login">E-mail adres</label>
  <input type="username" name="field_email" id="email" placeholder="Email" required /><br>
@@ -128,7 +127,6 @@ if (isset($_POST['submit'])) {
  <input type="password" name="field_password" id="passwd" placeholder="Wachtwoord" required /><br>
  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class="register" type="submit" name="submit" value="Login" />
 </form>
-<a href="registratie.php"><button class="register">Registreren</button></a>
 </div>
 
 <?php echo $error;?>

@@ -1,11 +1,16 @@
 <?php
-require 'view/config/config.php';
-include 'view/src/checklogin.php';
-include 'view/products/product_overzicht.php';
 session_start();
+require 'view/config/config.php';
+
+include 'view/src/checkloginadmin.php';
+
+include 'view/products/product_overzicht.php';
 //alleen codeerdiepzeeduikers zien dit
 if (isset($_POST['logout'])) {
   header("Location: view/src/logout.php"); //login formulier pagina
+}
+if (isset($_POST['add'])) {
+  header("Location: view/products/product_toevoegen.php"); //login formulier pagina
 }
 
 ?>
@@ -37,26 +42,23 @@ if (isset($_POST['logout'])) {
           <li><a href="">About</a></li>
           
           <li><a href="">Contact</a></li>
+          <li><a href="index.php">Beheerderswebsite</a></li>
         </ul>
       </nav>
     </div>
     <div class="nav2">
       <nav>
         <ul>
-          <?php if (($_SESSION['name'] != "")) {
-            echo "<li class='right'><a href='#'><img class='icon' src='assets/img/user.png'> Hallo " . $_SESSION['name'] . " [Guest] </a></li>";
+          <?php if (($_SESSION['namea'] != "")) {
+            echo "<li class='right'><a href='#'><img class='icon' src='assets/img/user.png'> Hallo " . $_SESSION['namea'] . " [Admin]</a></li>";
           } ?>
         </ul>
         <ul>
-          <?php if (($_SESSION['namea'] == "")) {
-            echo "<li class='right'><a href='admin/login.php'>Login als Admin</a></li>";
-          } ?>
-        </ul>
-        <ul>
-          <?php if (($_SESSION['name'] != "")) {
+          <?php if (($_SESSION['namea'] != "")) {
             echo "<li class='right'><form method='post'><a href='#'><input class='btn' type='submit' name='logout' value='Log Uit'></a></form></li>";
           } ?>
         </ul>
+        
       </nav>
   </header>
   <br>
@@ -102,10 +104,9 @@ if (isset($_POST['logout'])) {
           ?>
         </ul>
         </div>
-  </header>
   <div id="content">
     <div class="container">
-      <?php echo $products; ?>
+      <?php echo $products2; ?>
     </div>
 
 

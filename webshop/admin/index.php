@@ -1,5 +1,6 @@
 <?php
 session_start();
+$categorie_id = $_GET['cat_id'];
 require 'view/config/config.php';
 
 include 'view/src/checkloginadmin.php';
@@ -18,7 +19,9 @@ if (isset($_POST['users'])) {
 if (isset($_POST['customers'])) {
   header("Location: view/customers"); //login formulier pagina
 }
-
+if (isset($_POST['category'])) {
+  header("Location: view/categories/index.php"); //login formulier pagina
+}
 
 ?>
 <!DOCTYPE html>
@@ -45,7 +48,6 @@ if (isset($_POST['customers'])) {
     <div class="nav">
       <nav>
         <ul>
-          <li><a href="">Home</a></li>
           <li><a href="index_user.php">Gebruikerswebsite</a></li>
         </ul>
       </nav>
@@ -55,6 +57,11 @@ if (isset($_POST['customers'])) {
       <ul>
           <?php if (($_SESSION['namea'] != "")) {
             echo "<li class='right'><form method='post'><a href='#'><input class='btn' type='submit' name='add' value='Product toevoegen'></a></form></li>";
+          } ?>
+        </ul>
+        </ul>        <ul>
+          <?php if (($_SESSION['namea'] != "")) {
+            echo "<li class='right'><form method='post'><a href='#'><input class='btn' type='submit' name='category' value='Category'></a></form></li>";
           } ?>
         </ul>
         <ul>

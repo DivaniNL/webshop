@@ -2,49 +2,42 @@
 require '../config/config.php';
 
 session_start();
-if (isset($_POST['category'])) {
-  header("Location: ../categories/index.php"); //login formulier pagina
-}
-$id = $_GET['id'];
 
-    $sql = "SELECT * from `user` WHERE `id` = $id";
-    $result = $conn->query($sql);
-    $row = $result->fetch_assoc();
+if (isset($_POST['logout'])) {
+  header("Location: ../src/logout.php"); //login formulier pagina
+}
+if (isset($_POST['products'])) {
+  header("Location: ../products"); //login formulier pagina
+}
+if (isset($_POST['users'])) {
+  header("Location: ../users"); //login formulier pagina
+}
+if (isset($_POST['customers'])) {
+  header("Location:  ../customers"); //login formulier pagina
+}
+if (isset($_POST['category'])) {
+  header("Location:  index.php"); //login formulier pagina
+}
 if (isset($_POST['submit'])) {
     
-    $ingevuldfn = mysqli_real_escape_string($conn, $_POST['field_firstname']);
-    $ingevuldinfixn = mysqli_real_escape_string($conn, $_POST['field_infixname']);
-    $ingevuldln = mysqli_real_escape_string($conn, $_POST['field_lastname']);
-    $ingevuldgd = mysqli_real_escape_string($conn, $_POST['field_date']);
-    $ingevuldem = mysqli_real_escape_string($conn, $_POST['field_email']);
-    $ingevuldpw = mysqli_real_escape_string($conn, $_POST['field_password']);
+    $ingevuldnm = $_POST['field_name'];
+    $ingevuldbes = $_POST['field_description'];
 
-    $id = $_GET['id'];
-
-    $sql = "SELECT * from `user` WHERE `id` = $id";
+    $sql = "SELECT * from `category` WHERE `name` =  '$ingevulnm' OR `description` = '$ingevuldbes'";
     $result = $conn->query($sql);
-    $row = $result->fetch_assoc();
 
     if ($result->fetch_assoc()) {
-        echo "gebruiker bestaat al.";
+        echo "categorie bestaat al.";
     } else {
-        $sqlupd = "UPDATE `user` SET 
-    `firstName` = '$ingevuldfn',
-    `middleName` = '$ingevuldinfixn',
-    `lastName` = '$ingevuldln',
-    `birthDate` = '$ingevuldgd',
-    `email` = '$ingevuldem',
-    `password` = '$ingevuldpw' WHERE `id` = $id";
-    //(`name`, `description`, `category_id`, `price`, `color`, `weight`, `active`) VALUES ('$ingevuldproduct_name', '$ingevulddescr', '$ingevuldcat', '$ingevuldpr', '$ingevuldcl', '$ingevuldgw', 1)";
-    // Poging uitvoeren query
-    if ($conn->query($sqlupd) === TRUE) {
-        // Uitvoeren query gelukt
-        echo "Data succesvol bijgewerkt in tabel 'user'.";
-        header("Location: index.php");
-    } else {
-        // Uitvoeren query mislukt
-        echo "Error: " . $sqlupd . "<br>" . $conn->error;
-    }
+        $sql = "INSERT INTO `category`(`name`, `description`,`active`) VALUES ('$ingevuldnm', '$ingevuldbes',1)";
+        // Poging uitvoeren query
+        if ($conn->query($sql) === TRUE) {
+            // Uitvoeren query gelukt
+            header("Location: index.php");
+        } else {
+            // Uitvoeren query mislukt
+            echo "Error: " . $sql . "<br>" . $conn->error;
+        }
     }
 }
 ?>
@@ -72,16 +65,16 @@ if (isset($_POST['submit'])) {
         <ul>
           
           <li><a href="../../index.php">Admin-Home</a></li>
-          <li><a href="../../index_user.php">Gebruikerswebsite</a></li>
+          <li><a href="../../index_category.php">Gebruikerswebsite</a></li>
         </ul>
       </nav>
     </div>
     <div class="nav2">
       <nav>
 
-      <ul>
+        <ul>
           <?php if (($_SESSION['namea'] != "")) {
-            echo "<li class='right'><form method='post'><a href='#'><input class='btn' type='submit' name='add' value='Admin toevoegen'></a></form></li>";
+            echo "<li class='right'><form method='post'><a href='#'><input class='btn' type='submit' name='customers' value='Gebruikers'></a></form></li>";
           } ?>
         </ul>
         <ul>
@@ -91,7 +84,7 @@ if (isset($_POST['submit'])) {
         </ul>
         <ul>
           <?php if (($_SESSION['namea'] != "")) {
-            echo "<li class='right'><form method='post'><a href='#'><input class='btn' type='submit' name='customers' value='Gebruikers'></a></form></li>";
+            echo "<li class='right'><form method='post'><a href='#'><input class='btn' type='submit' name='users' value='Admins'></a></form></li>";
           } ?>
         </ul>
         <ul>
@@ -124,7 +117,7 @@ if (isset($_POST['submit'])) {
         }
         
         label {
-            width: 100px;
+            width: 200px;
             display: inline-block;
         }
         h1{
@@ -150,18 +143,12 @@ if (isset($_POST['submit'])) {
         }
     </style>
     <div class="container">
-<h1 class="titel"> Beheerdergegevens Wijzigen</h1>
+<h1 class="titel"> Categorie Toevoegen</h1>
 <form method="post">
- <label for="fname">Naam</label>
- <input value="<?php echo $row['firstName']?>" type="text" name="field_firstname" id="fname" placeholder="Voornaam" required />
- <input value="<?php echo $row['middleName']?>" type="text" name="field_infixname" placeholder="Tussenvoegsel" />
- <input value="<?php echo $row['lastName']?>" type="text" name="field_lastname" placeholder="Achternaam" required /><br>
- <label for="date">Geboortedatum</label>
- <input value="<?php echo $row['birthDate']?>" type="date" name="field_date" required /><br>
- <label for="email">E-mailadres</label>
- <input value="<?php echo $row['email']?>" type="email" name="field_email" id="email" placeholder="E-mailadres" required /><br>
- <label for="passwd">Wachtwoord</label>
- <input value="" type="password" name="field_password" id="passwd" placeholder="Wachtwoord" required /><br>
+<label for="field_product_name">Naam Categorie</label>
+                <input type="text" name="field_name" placeholder="bijv. Racecar" required /><br>
+                <label for="product_description">Beschrijving Categorie</label>
+                <input style="width: 400px;" type="text" name="field_description" placeholder="bijv. mooie auto" required /><br>
  <input class ="register" type="submit" name="submit" value="Registreren" />
 </form>
 </div>

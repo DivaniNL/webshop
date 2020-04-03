@@ -3,20 +3,19 @@ session_start();
 require '../config/config.php';
 
 
-include 'user_overview.php';
+include 'category_overview.php';
 //alleen codeerdiepzeeduikers zien dit
 if (isset($_POST['logout'])) {
   header("Location: ../src/logout.php"); //login formulier pagina
 }
 if (isset($_POST['add'])) {
-  header("Location: user_add.php"); //login formulier pagina
+  header("Location: category_add.php"); //login formulier pagina
+}
+if (isset($_POST['users'])) {
+  header("Location: ../users"); //login formulier pagina
 }
 if (isset($_POST['customers'])) {
     header("Location: ../customers/index.php"); //login formulier pagina
-  }
-
-  if (isset($_POST['category'])) {
-    header("Location: ../categories/index.php"); //login formulier pagina
   }
 
 ?>
@@ -46,7 +45,7 @@ if (isset($_POST['customers'])) {
         <ul>
           
           <li><a href="../../index.php">Admin-Home</a></li>
-          <li><a href="../../index_user.php">Gebruikerswebsite</a></li>
+          <li><a href="../../index_category.php">Gebruikerswebsite</a></li>
         </ul>
       </nav>
     </div>
@@ -55,19 +54,19 @@ if (isset($_POST['customers'])) {
 
       <ul>
           <?php if (($_SESSION['namea'] != "")) {
-            echo "<li class='right'><form method='post'><a href='#'><input class='btn' type='submit' name='add' value='Admin toevoegen'></a></form></li>";
-          } ?>
-        </ul>
-        </ul>        <ul>
-          <?php if (($_SESSION['namea'] != "")) {
-            echo "<li class='right'><form method='post'><a href='#'><input class='btn' type='submit' name='category' value='Category'></a></form></li>";
+            echo "<li class='right'><form method='post'><a href='#'><input class='btn' type='submit' name='add' value='Categorie toevoegen'></a></form></li>";
           } ?>
         </ul>
         <ul>
           <?php if (($_SESSION['namea'] != "")) {
             echo "<li class='right'><form method='post'><a href='#'><input class='btn' type='submit' name='customers' value='Gebruikers'></a></form></li>";
           } ?>
-
+        </ul>
+        <ul>
+          <?php if (($_SESSION['namea'] != "")) {
+            echo "<li class='right'><form method='post'><a href='#'><input class='btn' type='submit' name='users' value='Admins'></a></form></li>";
+          } ?>
+        </ul>
         <ul>
           <?php if (($_SESSION['namea'] != "")) {
             echo "<li class='right'><a href='#'><img class='icon' src='../../assets/img/user.png'> Hallo " . $_SESSION['namea'] . " [Admin]</a></li>";
@@ -83,9 +82,9 @@ if (isset($_POST['customers'])) {
   </header>
   <div id="content">
       <div class="container">
-          <h2> Gebruikers met Beheerdersrechten wijzigen of verwijderen.</h2>
+          <h2> Categorieën wijzigen of verwijderen.</h2>
 
-          <?php echo $users;?>
+          <?php echo $category;?>
       </div>
 
 

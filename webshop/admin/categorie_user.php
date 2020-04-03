@@ -8,13 +8,17 @@ $query2 = "SELECT * from `product` INNER JOIN `product_image` ON `product_id` = 
 $result = $conn->query($query2);
 $productsa="<div class='product-flex'>";
 $products="<div class='product-flex'>";
+$products2="<div class='product-flex'>";
 
 while ($row = $result->fetch_assoc()) {
 $productsa.= "<div class='product-box'><div class='product_img_div'><img class='product_img' src='view/products/upload/".$row['image']."'></div><a href='view/products/product_wijzigen.php?id=".$row['product_id']."'<button class='btn_update'>Updaten</button></a><a href='view/products/product_verwijderen.php?id=".$row['product_id']."'<button class='btn_delete'>Delete</button></a><p class='title'>".$row['name']."</p><br><p class='description'>".$row['description']."</p><br><p class='description'>Prijs: ".$row['price']."</p><br><p class='description'>Gewicht: ".$row['weight']." gram</p></div>";
 $products.= "<div class='product-box'><div class='product_img_div'><img class='product_img' src='view/products/upload/".$row['image']."'></div><p class='title'>".$row['name']."</p><br><p class='description'>".$row['description']."</p><br><p class='description'>Prijs: ".$row['price']."</p><br><p class='description'>Gewicht: ".$row['weight']." gram</p></div>";
+$products2.= "<div class='product-box'><a class='detail_href' href='product_info.php?product_id=".$row['product_id']."'><div class='product_img_div'><img class='product_img' src='view/products/upload/".$row['image']."'></div><p class='title'>".$row['name']."</p><br><p class='description'>".$row['description']."</p><br><p class='description'>Prijs: ".$row['price']."</p><br><p class='description'>Gewicht: ".$row['weight']."</p><br><p class='description'>Prijs: ".$row['price']."</p><br><p class='description'>Gewicht: ".$row['weight']." gram</p></a></div>";
 }
 $productsa.="</div>";
 $products.="</div>";
+$products2.="</div>";
+
 $result = $conn->query($query2);
 if (isset($_POST['logout'])) {
     header("Location: view/src/logout.php"); //login formulier pagina
@@ -54,31 +58,21 @@ if (isset($_POST['logout'])) {
     <header>
     <div class="nav">
       <nav>
-      <ul>
-      <li><a href="index.php">Home</a></li>
+        <ul>
+          <li><a href="index_user.php">Home</a></li>
           <?php
-            echo "<li><a href='categorie_user.php?cat_id=".$categorie_id."'>Gebruikerswebsite</a></li>";
+            echo "<li><a href='categorie.php?cat_id=".$categorie_id."'>Beheerderswebsite</a></li>";
           ?>
+          <?php if(count($_SESSION['cart2'])== 1){
+            echo "<li><a href=''><img class='icon' src='../assets/img/cart.png'>&nbsp;&nbsp;&nbsp;".count($_SESSION['cart2'])." Artikel</a></li>";
+          }else{
+            echo "<li><a href=''><img class='icon' src='../assets/img/cart.png'>&nbsp;&nbsp;&nbsp;".count($_SESSION['cart2'])." Artikelen</a></li>";
+          }?>
         </ul>
       </nav>
     </div>
     <div class="nav2">
       <nav>
-      <ul>
-          <?php if (($_SESSION['namea'] != "")) {
-            echo "<li class='right'><form method='post'><a href='#'><input class='btn' type='submit' name='add' value='Product toevoegen'></a></form></li>";
-          } ?>
-        </ul>
-        <ul>
-          <?php if (($_SESSION['namea'] != "")) {
-            echo "<li class='right'><form method='post'><a href='#'><input class='btn' type='submit' name='users' value='Admins'></a></form></li>";
-          } ?>
-        </ul>
-        <ul>
-          <?php if (($_SESSION['namea'] != "")) {
-            echo "<li class='right'><form method='post'><a href='#'><input class='btn' type='submit' name='customers' value='Gebruikers'></a></form></li>";
-          } ?>
-        </ul>
         <ul>
           <?php if (($_SESSION['namea'] != "")) {
             echo "<li class='right'><a href='#'><img class='icon' src='assets/img/user.png'> Hallo " . $_SESSION['namea'] . " [Admin]</a></li>";
@@ -101,44 +95,43 @@ if (isset($_POST['logout'])) {
         </ul>
         <ul>
           <?php
-            echo "<li><a class='category_link' href='categorie.php?cat_id=2'>Classic Cars</a></li>";
+            echo "<li><a class='category_link' href='categorie_user.php?cat_id=2'>Classic Cars</a></li>";
           ?>
         </ul>
         <ul>
           <?php
-            echo "<li><a class='category_link' href='categorie.php?cat_id=3'>Kids</a></li>";
+            echo "<li><a class='category_link' href='categorie_user.php?cat_id=3'>Kids</a></li>";
           ?>
         </ul>
         <ul>
           <?php
-            echo "<li><a class='category_link' href='categorie.php?cat_id=4'>Politie/Brandweer/Ambulance</a></li>";
+            echo "<li><a class='category_link' href='categorie_user.php?cat_id=4'>Politie/Brandweer/Ambulance</a></li>";
           ?>
         </ul>
         <ul>
           <?php
-            echo "<li><a class='category_link' href='categorie.php?cat_id=5'>vrachtwagens en trucks</a></li>";
+            echo "<li><a class='category_link' href='categorie_user.php?cat_id=5'>vrachtwagens en trucks</a></li>";
           ?>
         </ul>
         <ul>
           <?php
-            echo "<li><a class='category_link' href='categorie.php?cat_id=6'>bussen, limo's en taxi's</a></li>";
+            echo "<li><a class='category_link' href='categorie_user.php?cat_id=6'>bussen, limo's en taxi's</a></li>";
           ?>
         </ul>
         <ul>
           <?php
-            echo "<li><a class='category_link' href='categorie.php?cat_id=7'>Army</a></li>";
+            echo "<li><a class='category_link' href='categorie_user.php?cat_id=7'>Army</a></li>";
           ?>
         </ul>
         <ul>
           <?php
-            echo "<li><a class='category_link' href='categorie.php?cat_id=8'>Mini</a></li>";
+            echo "<li><a class='category_link' href='categorie_user.php?cat_id=8'>Mini</a></li>";
           ?>
         </ul>
         </div>
-  </header>
     <div id="content">
       <div class="container">
-        <?php echo $productsa; ?>
+        <?php echo $products2; ?>
       </div>
   
   

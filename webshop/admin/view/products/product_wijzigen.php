@@ -52,7 +52,7 @@ if (isset($_POST['submit'])) {
        $sqlupd2 = "UPDATE `product_image` SET 
     `product_id` = '$productid',
     `image` = '$imgname',
-    `active` = 1 WHERE `id` = $id";
+    `active` = 1 WHERE `product_id` = $id";
     
        // Upload file
        move_uploaded_file($_FILES['foto']['tmp_name'],$target_dir.$imgname);

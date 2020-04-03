@@ -1,5 +1,9 @@
 <?php
 session_start();
+$categorie_id = $_GET['cat_id'];
+if (!isset($_SESSION['cart2'])) {
+  $_SESSION['cart2'] = array();
+  }
 require 'view/config/config.php';
 
 include 'view/src/checkloginadmin.php';
@@ -39,10 +43,12 @@ if (isset($_POST['add'])) {
       <nav>
         <ul>
           <li><a href="">Home</a></li>
-          <li><a href="">About</a></li>
-          
-          <li><a href="">Contact</a></li>
           <li><a href="index.php">Beheerderswebsite</a></li>
+          <?php if(count($_SESSION['cart2'])== 1){
+            echo "<li><a href=''><img class='icon' src='../assets/img/cart.png'>&nbsp;&nbsp;&nbsp;".count($_SESSION['cart2'])." Artikel</a></li>";
+          }else{
+            echo "<li><a href=''><img class='icon' src='../assets/img/cart.png'>&nbsp;&nbsp;&nbsp;".count($_SESSION['cart2'])." Artikelen</a></li>";
+          }?>
         </ul>
       </nav>
     </div>
@@ -65,42 +71,42 @@ if (isset($_POST['add'])) {
   <div class="cats">
   <ul>
           <?php
-            echo "<li><a class='category_link' href='categorie.php?cat_id=1'>Racecars</a></li>";
+            echo "<li><a class='category_link' href='categorie_user.php?cat_id=1'>Racecars</a></li>";
           ?>
         </ul>
         <ul>
           <?php
-            echo "<li><a class='category_link' href='categorie.php?cat_id=2'>Classic Cars</a></li>";
+            echo "<li><a class='category_link' href='categorie_user.php?cat_id=2'>Classic Cars</a></li>";
           ?>
         </ul>
         <ul>
           <?php
-            echo "<li><a class='category_link' href='categorie.php?cat_id=3'>Kids</a></li>";
+            echo "<li><a class='category_link' href='categorie_user.php?cat_id=3'>Kids</a></li>";
           ?>
         </ul>
         <ul>
           <?php
-            echo "<li><a class='category_link' href='categorie.php?cat_id=4'>Politie/Brandweer/Ambulance</a></li>";
+            echo "<li><a class='category_link' href='categorie_user.php?cat_id=4'>Politie/Brandweer/Ambulance</a></li>";
           ?>
         </ul>
         <ul>
           <?php
-            echo "<li><a class='category_link' href='categorie.php?cat_id=5'>vrachtwagens en trucks</a></li>";
+            echo "<li><a class='category_link' href='categorie_user.php?cat_id=5'>vrachtwagens en trucks</a></li>";
           ?>
         </ul>
         <ul>
           <?php
-            echo "<li><a class='category_link' href='categorie.php?cat_id=6'>bussen, limo's en taxi's</a></li>";
+            echo "<li><a class='category_link' href='categorie_user.php?cat_id=6'>bussen, limo's en taxi's</a></li>";
           ?>
         </ul>
         <ul>
           <?php
-            echo "<li><a class='category_link' href='categorie.php?cat_id=7'>Army</a></li>";
+            echo "<li><a class='category_link' href='categorie_user.php?cat_id=7'>Army</a></li>";
           ?>
         </ul>
         <ul>
           <?php
-            echo "<li><a class='category_link' href='categorie.php?cat_id=8'>Mini</a></li>";
+            echo "<li><a class='category_link' href='categorie_user.php?cat_id=8'>Mini</a></li>";
           ?>
         </ul>
         </div>

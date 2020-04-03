@@ -20,6 +20,9 @@ if (isset($_POST['submit'])) {
     //    if(isset($_COOKIE['access'])) {
         $row = $result->fetch_assoc();
         //$_SESSION["email"] = $row['firstName'];
+        $_SESSION['firstName'] = $row['firstName'];
+        $_SESSION['middleName'] = $row['middleName'];
+        $_SESSION['lastName'] = $row['lastName'];
 
         if($row['middleName']== ""){
         $_SESSION["name"] = $row['firstName']." ".$row['lastName'];

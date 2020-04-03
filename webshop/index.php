@@ -1,8 +1,11 @@
 <?php
-require 'view/config/config.php';
-include 'view/src/checklogin.php';
-include 'view/products/product_overzicht.php';
 session_start();
+if (!isset($_SESSION['cart'])) {
+  $_SESSION['cart'] = array();
+  }
+require 'view/config/config.php';
+include 'view/products/product_overzicht.php';
+
 //alleen codeerdiepzeeduikers zien dit
 if (isset($_POST['logout'])) {
   header("Location: view/src/logout.php"); //login formulier pagina
@@ -37,7 +40,12 @@ if (isset($_POST['logout'])) {
           <li><a href="">About</a></li>
           
           <li><a href="">Contact</a></li>
-        </ul>
+          <?php if (($_SESSION['name'] != "")){
+          if(count($_SESSION['cart'])== 1){
+            echo "<li><a href='cart.php'><img class='icon' src='assets/img/cart.png'>&nbsp;&nbsp;&nbsp;".count($_SESSION['cart'])." Artikel</a></li>";
+          }else{
+            echo "<li><a href='cart.php'><img class='icon' src='assets/img/cart.png'>&nbsp;&nbsp;&nbsp;".count($_SESSION['cart'])." Artikelen</a></li>";
+          }}?></ul>
       </nav>
     </div>
     <div class="nav2">
@@ -50,6 +58,11 @@ if (isset($_POST['logout'])) {
         <ul>
           <?php if (($_SESSION['namea'] == "")) {
             echo "<li class='right'><a href='admin/login.php'>Login als Admin</a></li>";
+          } ?>
+        </ul>
+        <ul>
+          <?php if (($_SESSION['name'] == "")) {
+            echo "<li class='right'><a href='login.php'>Login </a></li>";
           } ?>
         </ul>
         <ul>

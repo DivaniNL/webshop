@@ -27,6 +27,7 @@ if (isset($_POST['submit'])) {
         $_SESSION["namea"] = $row['firstName']." ".$row['middleName']." ".$row['lastName'];
         }
         $_SESSION['loginadmin'] = "complete";
+        $_SESSION['cart']  = "";
         header("Location: index.php");
     //  } else {
     //       echo "Cookie is not set!";

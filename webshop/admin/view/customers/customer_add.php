@@ -14,6 +14,9 @@ if (isset($_POST['logout'])) {
   if (isset($_POST['customers'])) {
     header("Location: index.php"); //login formulier pagina
   }
+  if (isset($_POST['category'])) {
+    header("Location:  ../categories/index.php"); //login formulier pagina
+  }
 if (isset($_POST['submit'])) {
     if($_POST['field_newsletter'] == false){
         $_POST['field_newsletter'] = 0;
@@ -89,7 +92,11 @@ if (isset($_POST['submit'])) {
     </div>
     <div class="nav2">
       <nav>
-
+      <ul>
+          <?php if (($_SESSION['namea'] != "")) {
+            echo "<li class='right'><form method='post'><a href='#'><input class='btn' type='submit' name='category' value='Category'></a></form></li>";
+          } ?>
+        </ul>
       <ul>
           <?php if (($_SESSION['namea'] != "")) {
             echo "<li class='right'><form method='post'><a href='#'><input class='btn' type='submit' name='users' value='Admins'></a></form></li>";

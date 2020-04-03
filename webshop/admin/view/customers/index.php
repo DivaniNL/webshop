@@ -14,6 +14,9 @@ if (isset($_POST['add'])) {
 if (isset($_POST['users'])) {
   header("Location: ../users/index.php"); //login formulier pagina
 }
+if (isset($_POST['category'])) {
+  header("Location:  ../categories/index.php"); //login formulier pagina
+}
 
 ?>
 <!DOCTYPE html>
@@ -55,6 +58,11 @@ if (isset($_POST['users'])) {
         </ul>
         <ul>
           <?php if (($_SESSION['namea'] != "")) {
+            echo "<li class='right'><form method='post'><a href='#'><input class='btn' type='submit' name='category' value='Category'></a></form></li>";
+          } ?>
+        </ul>
+        <ul>
+          <?php if (($_SESSION['namea'] != "")) {
             echo "<li class='right'><form method='post'><a href='#'><input class='btn' type='submit' name='users' value='Admins'></a></form></li>";
           } ?>
         </ul>
@@ -63,6 +71,7 @@ if (isset($_POST['users'])) {
             echo "<li class='right'><a href='#'><img class='icon' src='../../assets/img/user.png'> Hallo " . $_SESSION['namea'] . " [Admin]</a></li>";
           } ?>
         </ul>
+        
         <ul>
           <?php if (($_SESSION['namea'] != "")) {
             echo "<li class='right'><form method='post'><a href='#'><input class='btn' type='submit' name='logout' value='Log Uit'></a></form></li>";

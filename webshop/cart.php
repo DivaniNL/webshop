@@ -1,25 +1,34 @@
 <?php
 session_start();
-if (!isset($_SESSION['cart'])) {
+require 'view/config/config.php';
+include 'view/products/product_overzicht.php';
+include 'view/src/checklogin.php';
+$id = $_GET['product_id'];
+  if (!isset($_SESSION['cart'])) {
   $_SESSION['cart'] = array();
   }
-require 'view/config/config.php';
+$detail = "<div class='product-detail'><div class='exitrow'><a href='index.php'><img src='assets/img/krruis.png' class='cross'></a></div><h1 class='titledet'>Winkelwagen</h1><br><table>
 
-include 'view/src/checkloginadmin.php';
-$categorie_id = $_GET['cat_id'];
-
-$query2 = "SELECT * from `product` INNER JOIN `product_image` ON `product_id` = product.id WHERE `category_id` = $categorie_id";
-$result = $conn->query($query2);
-$productsa="<div class='product-flex'>";
-$products="<div class='product-flex'>";
-
-while ($row = $result->fetch_assoc()) {
-$productsa.= "<div class='product-box'><div class='product_img_div'><img class='product_img' src='admin/view/products/upload/".$row['image']."'></div><a href='view/products/product_wijzigen.php?id=".$row['product_id']."'<button class='btn_update'>Updaten</button></a><a href='view/products/product_verwijderen.php?id=".$row['product_id']."'<button class='btn_delete'>Delete</button></a><p class='title'>".$row['name']."</p><br><p class='description'>".$row['description']."</p></div>";
-$products.= "<div class='product-box'><div class='product_img_div'><img class='product_img' src='admin/view/products/upload/".$row['image']."'></div><p class='title'>".$row['name']."</p><br><p class='description'>".$row['description']."</p></div>";
+<tr>
+<th>Gekocht</td>
+<th style='text-align: right;'>Prijs</th>
+</tr>
+";
+$wagen = $_SESSION['cart'];
+$query2 = "SELECT * from `product`";
+$result2 = $conn->query($query2);
+while ($row2 = $result2->fetch_assoc()) {
+    for($i = 0; $i < count($_SESSION['cart']); $i++) {
+        if($row2['id'] == $_SESSION['cart'][$i]){
+            $detail .=  "<tr><td style='text-align: left;'>".$row2['name']."</td><td>".$row2['price']."</td></tr>";
+        }
+    } 
 }
-$productsa.="</div>";
-$products.="</div>";
-$result = $conn->query($query2);
+$detail.="</table><br><form method='POST' action='order.php'><input type='submit' class='order' name='order' value='Bestel'></form></div>";
+?>
+
+<?php
+
 if (isset($_POST['logout'])) {
     header("Location: view/src/logout.php"); //login formulier pagina
   }
@@ -46,33 +55,28 @@ if (isset($_POST['logout'])) {
   </head>
   
   <body>
-    <div class="header">
-      <div class="inlineblock">
+
+    <div class="header"  style="opacity: 0.5;">
+      <div class="inlineblock"  style="opacity: 0.5;">
         <img class="logo" src="assets/img/logo.png">
       </div>
-      <div class="inlineblock">
+      <div class="inlineblock"  style="opacity: 0.5;">
         <img class="headertext" src="assets/img/headertext.png">
       </div>
   
     </div>
     <header>
-    <div class="nav">
-      <nav>
+    <div class="nav"  style="opacity: 0.5;">
       <nav>
         <ul>
           <li><a href="index.php">Home</a></li>
           <li><a href="">About</a></li>
           
           <li><a href="">Contact</a></li>
-          <?php if(count($_SESSION['cart'])== 1){
-            echo "<li><a href=''><img class='icon' src='assets/img/cart.png'>&nbsp;&nbsp;&nbsp;".count($_SESSION['cart'])." Artikel</a></li>";
-          }else{
-            echo "<li><a href=''><img class='icon' src='assets/img/cart.png'>&nbsp;&nbsp;&nbsp;".count($_SESSION['cart'])." Artikelen</a></li>";
-          }?></ul>
-      </nav>
+        </ul>
       </nav>
     </div>
-    <div class="nav2">
+    <div class="nav2"  style="opacity: 0.5;">
       <nav>
         <ul>
           <?php if (($_SESSION['name'] != "")) {
@@ -92,7 +96,7 @@ if (isset($_POST['logout'])) {
       </nav>
   </header>
     <br>
-    <div class="cats">
+    <div class="cats"  style="opacity: 0.5;">
     <ul>
           <?php
             echo "<li><a class='category_link' href='categorie.php?cat_id=1'>Racecars</a></li>";
@@ -137,10 +141,8 @@ if (isset($_POST['logout'])) {
     </header>
     <div id="content">
       <div class="container">
-        <?php echo $products; ?>
+        <?php echo $detail; ?>
       </div>
-  
-  
   
     </div>
   </body>
